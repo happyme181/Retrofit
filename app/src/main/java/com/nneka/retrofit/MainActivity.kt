@@ -3,6 +3,7 @@ package com.nneka.retrofit
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import com.nneka.retrofit.RetrofitProvider.service
 import com.nneka.retrofit.databinding.ActivityMainBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,13 +27,8 @@ class MainActivity : AppCompatActivity() {
         binding.recycView.adapter = todoAdapter
 
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://jsonplaceholder.typicode.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-        val service: TodoService = retrofit.create(TodoService::class.java)
-        val todos: Call<List<Todo>> = service.getAllTodos()
+        val todos: Call<List<Todo>> = RetrofitProvider.service.getAllTodos()
 
         todos.enqueue (object : Callback<List<Todo>> {
             override fun onResponse(call: Call<List<Todo>>, response: Response<List<Todo>>) {
